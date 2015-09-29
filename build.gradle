@@ -1,0 +1,49 @@
+apply plugin: "java"
+apply plugin: "com.github.samueltbrown.cucumber"
+apply plugin: "jacoco"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile "junit:junit-dep:4.11"
+    testCompile "info.cukes:cucumber-java:1.1.7"
+}
+
+testResultsDirName = "results/test"
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/results/jacoco/test.exec")
+    }
+}
+
+cucumber {
+    formats = [ "pretty", "html:build/reports/cucumber", "json:build/results/cucumber/cucumber.json" ]
+    glueDirs = [ "src/cucmber/java" ]
+    featureDirs = [ "src/cucumber/resources" ]
+    jvmOptions {
+        def jacocoAgent = zipTree(configurations.jacocoAgent.singleFile).filter { it.name == "jacocoagent.jar" }.singleFile
+        jvmArgs = ["-javaagent:$jacocoAgent=destfile=$buildDir/results/jacoco/cucumber.exec,append=false"]
+    }
+}
+
+jacocoTestReport {
+    executionData = files("$buildDir/results/jacoco/test.exec", "$buildDir/results/jacoco/cucumber.exec")
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "$buildDir/reports/jacoco"
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.8"
+    }
+}
