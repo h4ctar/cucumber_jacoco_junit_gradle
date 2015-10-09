@@ -91,6 +91,20 @@ test {
 }
 ```
 
+### Coverage Report
+And finally for the coverage report add:
+
+``` gradle
+jacocoTestReport {
+    executionData = files("$buildDir/results/jacoco/test.exec", "$buildDir/results/jacoco/cucumber.exec")
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "$buildDir/reports/jacoco"
+    }
+}
+```
+
 ### Running
 To test the low level software requirements run:
 
