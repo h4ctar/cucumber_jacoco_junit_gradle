@@ -102,6 +102,8 @@ jacocoTestReport {
         csv.enabled false
         html.destination "$buildDir/reports/jacoco"
     }
+    dependsOn test
+    dependsOn "cucumber"
 }
 ```
 
@@ -114,6 +116,8 @@ $ gradle test
 
 This will generate some sweet results:
 
+![JUnit](junit.png)
+
 To test the high level software requirements run:
 
 ``` bash
@@ -122,6 +126,8 @@ $ gradle cucumnber
 
 This will generate some more neat results:
 
+![Cucumber](cucumber.png)
+
 To check the coverage:
 
 ``` bash
@@ -129,3 +135,5 @@ $ gradle jacocoTestReport
 ```
 
 And you will know if you have incomplete requirements:
+
+![JaCoCo](jacoco.png)
