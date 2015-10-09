@@ -9,18 +9,12 @@ import org.junit.Test;
  */
 public class CalculatorTest {
 
-    private static final int A = 6;
-
-    private static final int B = 7;
-
-    private static final int EXPECTED_PRODUCT = 42;
-
     private final Calculator calculator = new Calculator();
 
     @Test
-    public void testAdd() {
-        int actualProduct = calculator.multiply(A, B);
+    public void testMultiply() {
+        int actualProduct = calculator.multiply(6, 7);
 
-        assertEquals("Product should be " + EXPECTED_PRODUCT, EXPECTED_PRODUCT, actualProduct);
+        assertEquals("Product should be 42", 42, actualProduct);
     }
 }
