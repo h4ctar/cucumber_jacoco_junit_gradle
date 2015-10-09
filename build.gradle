@@ -37,6 +37,8 @@ jacocoTestReport {
         csv.enabled false
         html.destination "$buildDir/reports/jacoco"
     }
+    dependsOn test
+    dependsOn "cucumber"
 }
 
 buildscript {
