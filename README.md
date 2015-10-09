@@ -1,5 +1,5 @@
 # Cucumber, JaCoCo and JUnit with Gradle
-Sample Gradle project with Cucumber and JUnit tests covered by Jacoco.
+Sample Gradle project with Cucumber and JUnit tests covered by JaCoCo.
 
 ## Overview
 To meet a high safety standard, a piece of software should have high and potentially low level software requirements, assuming these requirements are validated, once verified, the quality of the software should be good.
@@ -39,6 +39,79 @@ public void testMultiply() {
 }
 ```
 
-## Coverage
+## Validation
+To help with validation, the code coverage can be measured while the software is tested, this will give some kind of confidence that the requirements are complete.
+Coverage is easy to measure with JaCoCo, simply use the JaCoCo agent when running the tests.
 
 ## Gradle
+There are a few tricks to bring this all together with Gradle:
+
+### Build Output
+It is a goodness to have a well structured build output; we will aim for the folder structure below. reports will contain the human readable reports (HTML) and results will contain the raw results (JSON, XML and EXEC).
+
+```
+build
+ ├ reports
+ |  ├ cucumber
+ |  ├ jacoco
+ |  └ tests
+ └ results
+    ├ cucumber
+    ├ jacoco
+    └ tests
+```
+
+### Cucumber
+Use the [gradle-cucumber-plugin](https://github.com/samueltbrown/gradle-cucumber-plugin) by Samuel Brown.
+
+The following configuration will create a HTML report, JSON results, will find the glue code and features and will run the JaCoCo agent when the features are being executed to get coverage data:
+``` gradle
+cucumber {
+    formats = [ "pretty", "html:build/reports/cucumber", "json:build/results/cucumber/cucumber.json" ]
+    glueDirs = [ "src/cucmber/java" ]
+    featureDirs = [ "src/cucumber/resources" ]
+    jvmOptions {
+        def jacocoAgent = zipTree(configurations.jacocoAgent.singleFile).filter { it.name == "jacocoagent.jar" }.singleFile
+        jvmArgs = ["-javaagent:$jacocoAgent=destfile=$buildDir/results/jacoco/cucumber.exec,append=false"]
+    }
+}
+```
+
+### JUnit
+Use the official jacoco gradle plugin and add the following configuration to get the results in the correct folders:
+
+``` gradle
+testResultsDirName = "results/test"
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/results/jacoco/test.exec")
+    }
+}
+```
+
+### Running
+To test the low level software requirements run:
+
+``` bash
+$ gradle test
+```
+
+This will generate some sweet results:
+
+To test the high level software requirements run:
+
+``` bash
+$ gradle cucumnber
+```
+
+This will generate some more neat results:
+
+To check the coverage:
+
+``` bash
+$ gradle jacocoTestReport
+```
+
+And you will know if you have incomplete requirements:
