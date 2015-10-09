@@ -2,7 +2,7 @@
 Sample Gradle project with Cucumber and JUnit tests covered by Jacoco.
 
 ## Overview
-To meet a high safety standard, a piece of software can have high and low level software requirements, assuming these requirements are validated, once verified, the quality of the software should be high.
+To meet a high safety standard, a piece of software should have high and potentially low level software requirements, assuming these requirements are validated, once verified, the quality of the software should be good.
 
 The goal of this sample project is to show how the high and low level requirements can be captured and how to automate the verification process, it also shows how to validate that the requirements are complete by checking if there is any code that does not get executed when all the requirements are tested.
 
@@ -33,10 +33,12 @@ Low level requirements will be tested using JUnit.
 
 ``` java
 @Test
-public void testAdd() {
-    int actualProduct = calculator.multiply(A, B);
-    assertEquals("Product should be " + EXPECTED_PRODUCT, EXPECTED_PRODUCT, actualProduct);
+public void testMultiply() {
+    int actualProduct = calculator.multiply(6, 7);
+    assertEquals("Product should be 42", 42, actualProduct);
 }
 ```
 
 ## Coverage
+
+## Gradle
