@@ -47,7 +47,8 @@ Coverage is easy to measure with JaCoCo, simply use the JaCoCo agent when runnin
 There are a few tricks to bring this all together with Gradle:
 
 ### Build Output
-It is a goodness to have a well structured build output; we will aim for the folder structure below. reports will contain the human readable reports (HTML) and results will contain the raw results (JSON, XML and EXEC).
+It is a goodness to have a well structured build output; we will aim for the folder structure below.
+`reports` will contain the human readable reports (HTML) and `results` will contain the raw results (JSON, XML and EXEC).
 
 ```
 build
